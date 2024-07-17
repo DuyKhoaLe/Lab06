@@ -1,50 +1,56 @@
 import tkinter as tk
-from tkinter import font
+from tkinter import ttk
 
 
-def create_frame_recorder():
-    # Tạo cửa sổ chính
-    root = tk.Tk()
-    root.title("Frame Recorder")
-    root.geometry("600x300")
-    root.configure(bg='#DDA0DD')  # Màu nền tím nhạt
+class Application(tk.Tk):
+    def __init__(self):
+        super().__init__()
 
-    # Tạo nhãn tiêu đề
-    title_font = font.Font(family="Helvetica", size=24, weight="bold")
-    title_label = tk.Label(root, text="Frame Recorder", font=title_font, bg='#DDA0DD')
-    title_label.pack(pady=10)
+        self.title("FPS Control Window")
+        self.geometry("600x300")
+        self.configure(bg="#3399FF")
 
-    # Tạo khung chứa đầu vào FPS
-    fps_frame = tk.Frame(root, bg='#DDA0DD')
-    fps_frame.pack(pady=10)
+        # Tạo nhãn tiêu đề
+        title_label = tk.Label(self, text="FPS Control Panel", font=("Helvetica", 24), bg="#3399FF")
+        title_label.pack(pady=20)
 
-    fps_label = tk.Label(fps_frame, text="create an", bg='#DDA0DD')
-    fps_label.pack(side="left")
+        # Tạo khung cho đầu vào FPS
+        fps_frame = tk.Frame(self, bg="#3399FF")
+        fps_frame.pack(pady=10)
 
-    fps_entry = tk.Entry(fps_frame, width=5)
-    fps_entry.pack(side="left")
+        fps_label = tk.Label(fps_frame, text="FPS:", font=("Helvetica", 14), bg="#3399FF")
+        fps_label.pack(side=tk.LEFT, padx=5)
 
-    fps_suffix_label = tk.Label(fps_frame, text="fps video", bg='#DDA0DD')
-    fps_suffix_label.pack(side="left")
+        self.fps_entry = tk.Entry(fps_frame, font=("Helvetica", 14))
+        self.fps_entry.pack(side=tk.LEFT, padx=5)
 
-    # Tạo khung chứa các nút
-    button_frame = tk.Frame(root, bg='#DDA0DD')
-    button_frame.pack(pady=10)
+        # Tạo khung cho các nút
+        button_frame = tk.Frame(self, bg="#3399FF")
+        button_frame.pack(pady=10)
 
-    pause_button = tk.Button(button_frame, text="Pause")
-    pause_button.pack(side="left", padx=10)
+        pause_button = tk.Button(button_frame, text="Tạm dừng", font=("Helvetica", 14), command=self.pause)
+        pause_button.pack(side=tk.LEFT, padx=5)
 
-    start_button = tk.Button(button_frame, text="Start")
-    start_button.pack(side="left", padx=10)
+        start_button = tk.Button(button_frame, text="Bắt đầu", font=("Helvetica", 14), command=self.start)
+        start_button.pack(side=tk.LEFT, padx=5)
 
-    end_button = tk.Button(button_frame, text="End")
-    end_button.pack(side="left", padx=10)
+        stop_button = tk.Button(button_frame, text="Kết thúc", font=("Helvetica", 14), command=self.stop)
+        stop_button.pack(side=tk.LEFT, padx=5)
 
-    # Tạo nhãn trạng thái
-    status_label = tk.Label(root, text="Recording Paused", bg='#DDA0DD')
-    status_label.pack(pady=10)
+        # Tạo nhãn trạng thái
+        self.status_label = tk.Label(self, text="Trạng thái: Chưa bắt đầu", font=("Helvetica", 14), fg='#FFFF00', bg="#3399FF")
+        self.status_label.pack(pady=10)
 
-    root.mainloop()
+    def pause(self):
+        self.status_label.config(text="Trạng thái: Tạm dừng")
+
+    def start(self):
+        self.status_label.config(text="Trạng thái: Đang ghi")
+
+    def stop(self):
+        self.status_label.config(text="Trạng thái: Kết thúc")
 
 
-create_frame_recorder()
+if __name__ == "__main__":
+    app = Application()
+    app.mainloop()
